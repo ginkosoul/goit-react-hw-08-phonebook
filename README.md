@@ -1,29 +1,38 @@
-# Phonebook
+# Contact Book
 
-Refactoring application using redux
+Add to the Contact Book application the ability to register, login, and user
+updates, and work with a private collection of contacts.
 
-## Contact book
+## Backend.
 
-Perform refactoring of the Contact Book application code. Remove the code
-responsible for storing and reading contacts from the local storage, and add
-communication with the backend for storing contacts.
+There is a ready-made backend for this task. Check out the documentation. It
+supports all necessary operations on the contact collection, as well as
+registering, logging in and user update with JWT. Use it instead of your backend
+created with the service mockapi.io.
 
-## State Form
+## Routing
 
-Add the load and error indicator handling to the Redux state. To do this, change
-the state form.
+Add routing with the React Router library. The application should have several
+pages:
 
-`{ contacts: { items: [], isLoading: false, error: null }, filter: "" }`
+`/register` - public route to register a new user with a form `/login` - public
+login route of an existing user with a form `/contacts` - a private route for
+your contact list Add a navigation component `Navigation` with links to navigate
+routes.
 
-### Operations
+## User menu
 
-Use createAsyncThunk to declare asynchronous action generators and make HTTP
-requests. Do the processing of the actions and change data in Redux state with
-createSlice.
+Create a component `UserMenu`, that displays the user's email and a logout
+button. Here's what its markup might look like.
 
-Declare the following operations:
+```
+<div>
+  <p>mango@mail.com</p>
+  <button>Logout</button>
+</div>
+```
 
-`fetchContacts` - get an array of contacts (GET method) by GET request. The
-basic type of action `"contacts/fetchAll"`. `addContact` - add contact (POST
-method). Basic type of action `"contacts/addContact"`. `deleteContact` - deletes
-a contact (DELETE method). Basic type of action `"contacts/deleteContact"`.
+## Styling.
+
+This is the final version of the application, so work on styling the interface.
+You can use a styling library or components such as Chakra UI or Material UI.
