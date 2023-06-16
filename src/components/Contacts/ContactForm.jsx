@@ -2,9 +2,8 @@ import { Formik, Field, Form } from 'formik';
 import * as Yup from 'yup';
 import css from '../Contacts/ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from 'redux/contactsSlice';
-import { nanoid } from 'nanoid';
-import { createContactsThunk } from 'redux/thunk';
+import { getContacts, getIsLoading } from 'redux/contacts/contactsSlice';
+import { createContactsThunk } from 'redux/contacts/thunk';
 
 // const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
@@ -21,7 +20,7 @@ const SignupSchema = Yup.object().shape({
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  phone: Yup.string()
+  number: Yup.string()
     .matches(
       phoneRegExp,
       'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +'
@@ -32,20 +31,22 @@ const SignupSchema = Yup.object().shape({
 export default function ContactForm() {
   const dispatch = useDispatch();
   const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
 
   const handleSubmit = value => {
     if (contacts.find(e => e.name === value.name)) {
       alert('Already in the list');
       return;
     }
-    const newElement = { ...value, id: nanoid() };
+    const newElement = { ...value };
+    console.log(value);
     dispatch(createContactsThunk(newElement));
   };
   return (
     <Formik
       initialValues={{
         name: '',
-        phone: '',
+        number: '',
       }}
       validationSchema={SignupSchema}
       onSubmit={handleSubmit}
@@ -54,9 +55,9 @@ export default function ContactForm() {
         <Form className={css.form}>
           <Field className={css.input} name="name" />
           {errors.name && touched.name ? <div>{errors.name}</div> : null}
-          <Field className={css.input} name="phone" />
-          {errors.phone && touched.phone ? <div>{errors.phone}</div> : null}
-          <button className={css.btn} type="submit">
+          <Field className={css.input} name="number" />
+          {errors.number && touched.number ? <div>{errors.number}</div> : null}
+          <button className={css.btn} type="submit" disabled={isLoading}>
             add contact
           </button>
         </Form>

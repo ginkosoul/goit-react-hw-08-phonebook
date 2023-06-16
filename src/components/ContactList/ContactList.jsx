@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import css from '../ContactList/ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from 'redux/contactsSlice';
-import { getFilter } from 'redux/filterSlice';
-import { deleteContactsThunk, getContactsThunk } from 'redux/thunk';
+import { getContacts } from 'redux/contacts/contactsSlice';
+import { getFilter } from 'redux/contacts/filterSlice';
+import { deleteContactsThunk, getContactsThunk } from 'redux/contacts/thunk';
 
 export default function ContactList() {
   const filter = useSelector(getFilter);
@@ -26,7 +26,7 @@ export default function ContactList() {
     <ul className={css.list}>
       {filteredContacts.map(e => (
         <li className={css.item} key={e.id}>
-          {`${e.name}: ${e.phone}`}
+          {`${e.name}: ${e.number}`}
           <button
             className={css.btn}
             onClick={event => {
