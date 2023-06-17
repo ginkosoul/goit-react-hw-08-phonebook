@@ -1,29 +1,41 @@
-import { Box, Button } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Button, Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
-    <Box
+    <Paper
+      elevation={3}
       sx={{
-        height: '100vh',
-        width: '400px',
         gap: '24px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        alignContent: 'center',
         justifyContent: 'center',
+        p: 3,
       }}
     >
-      <Link to="/register">
-        <Button type="button" fullWidth variant="outlined">
-          Register
-        </Button>
-      </Link>
-      <Link to="/login">
-        <Button type="button" fullWidth variant="contained">
-          Login
-        </Button>
-      </Link>
-    </Box>
+      <Button
+        type="button"
+        onClick={() => {
+          navigate('/register');
+        }}
+        fullWidth
+        variant="outlined"
+      >
+        Register
+      </Button>
+      <Button
+        type="button"
+        onClick={() => {
+          navigate('/login');
+        }}
+        fullWidth
+        variant="contained"
+      >
+        Login
+      </Button>
+    </Paper>
   );
 }

@@ -1,6 +1,6 @@
 import { addFilter, getFilter } from 'redux/contacts/filterSlice';
-import css from '../Filter/Filter.module.css';
 import { useDispatch } from 'react-redux';
+import { TextField } from '@mui/material';
 
 export default function Filter() {
   const dispatch = useDispatch(getFilter);
@@ -8,5 +8,14 @@ export default function Filter() {
   const onChange = e => {
     dispatch(addFilter(e.target.value.trim()));
   };
-  return <input className={css.input} type="text" onChange={onChange} />;
+  return (
+    <TextField
+      margin="normal"
+      fullWidth
+      name="filter"
+      size="small"
+      type="text"
+      onChange={onChange}
+    />
+  );
 }

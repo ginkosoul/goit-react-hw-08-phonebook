@@ -9,25 +9,34 @@ import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { logIn } from 'redux/auth/operations';
 import { Link } from 'react-router-dom';
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
+
+const validationSchema = Yup.object().shape({
+  email: Yup.string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: Yup.string('Enter your password')
+    .min(8, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+});
 
 export default function SignIn() {
   const dispatch = useDispatch();
-  const handleSubmit = event => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    dispatch(
-      logIn({
-        email: data.get('email'),
-        password: data.get('password'),
-      })
-    );
-    event.currentTarget.reset();
-  };
 
+  const formik = useFormik({
+    initialValues: {
+      email: 'fragmentreact@re.ac',
+      password: 'examplepwd12345',
+    },
+    validationSchema: validationSchema,
+    onSubmit: user => {
+      dispatch(logIn(user));
+    },
+  });
   return (
     <Box
       sx={{
-        marginTop: 8,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -39,7 +48,12 @@ export default function SignIn() {
       <Typography component="h1" variant="h5">
         Sign in
       </Typography>
-      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box
+        component="form"
+        onSubmit={formik.handleSubmit}
+        noValidate
+        sx={{ mt: 1 }}
+      >
         <TextField
           margin="normal"
           required
@@ -49,6 +63,10 @@ export default function SignIn() {
           name="email"
           autoComplete="email"
           autoFocus
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
         />
         <TextField
           margin="normal"
@@ -59,6 +77,10 @@ export default function SignIn() {
           type="password"
           id="password"
           autoComplete="current-password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
         />
         <Button
           type="submit"

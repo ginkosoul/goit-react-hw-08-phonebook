@@ -1,5 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { register, logIn, logOut, refreshUser } from './operations';
+import { toast } from 'react-hot-toast';
 
 const initialState = {
   user: { name: null, email: null },
@@ -27,14 +28,12 @@ const handleLogOutfulfilled = state => {
   state.isRefreshing = false;
 };
 
-// const handleLogOutfulfilled = state => {
-//   console.log(initialState);
-//   state.token = null;
-//   state = { ...initialState };
-// };
-
 const handleRefresh = state => {
   state.isRefreshing = true;
+};
+
+const handleRejected = (state, { payload }) => {
+  toast.error(payload);
 };
 
 const authSlice = createSlice({
@@ -47,7 +46,11 @@ const authSlice = createSlice({
       .addCase(logOut.fulfilled, handleLogOutfulfilled)
       .addCase(refreshUser.fulfilled, handleRefreshUserFulfilled)
       .addCase(refreshUser.rejected, handleLogOutfulfilled)
-      .addCase(refreshUser.pending, handleRefresh),
+      .addCase(refreshUser.pending, handleRefresh)
+      .addMatcher(
+        isAnyOf(logIn.rejected, refreshUser.rejected, register.rejected),
+        handleRejected
+      ),
 });
 
 export const authReducer = authSlice.reducer;
