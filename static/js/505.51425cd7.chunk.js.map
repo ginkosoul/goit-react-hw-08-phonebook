@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/505.51425cd7.chunk.js","mappings":"iNAEe,SAASA,IACtB,OAAO,SAAC,KAAD,GACR,C","sources":["pages/SignUp.jsx"],"sourcesContent":["import { SignUp } from 'components';\n\nexport default function SignUpPage() {\n  return <SignUp />;\n}\n"],"names":["SignUpPage"],"sourceRoot":""}

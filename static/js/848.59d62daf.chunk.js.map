@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/848.59d62daf.chunk.js","mappings":"iNAEe,SAASA,IACtB,OAAO,SAAC,KAAD,GACR,C","sources":["pages/SignIn.jsx"],"sourcesContent":["import { SignIn } from 'components';\n\nexport default function SignInPage() {\n  return <SignIn />;\n}\n"],"names":["SignInPage"],"sourceRoot":""}
